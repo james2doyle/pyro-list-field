@@ -33,9 +33,9 @@ class Field_list
 	 */
 	public function form_output($data)
 	{
-		$output = unserialize($data['value']);
+		$output = gettype($data['value']) == "array" ? $data['value'] : unserialize($data['value']);
 		if (is_null($data['value']) || strlen($output[0]) == 0) {
-			return '<ul class="list_field" id="'.$data['form_slug'].'"><li><textarea name="'.$data['form_slug'].'[0]" class="item_input" placeholder="List item content..."></textarea><div class="btn gray add">+</div><div class="btn gray remove">-</div></li></ul>';
+			return '<ul class="list_field" id="'.$data['form_slug'].'"><li><textarea name="'.$data['form_slug'].'[0]" class="item_input" placeholder="'.lang('streams:list.placeholder').'"></textarea><div class="btn gray add">'.lang('streams:list.item_actions.add').'</div><div class="btn gray remove">'.lang('streams:list.item_actions.remove').'</div></li></ul>';
 		} else {
 			$str = '<ul class="list_field" id="'.$data['form_slug'].'">';
 			foreach ($output as $key => $value) {
@@ -49,8 +49,10 @@ class Field_list
 
 	public function event($field)
 	{
-		$this->CI->type->add_js('list', 'list.js');
 		$this->CI->type->add_css('list', 'list.css');
+
+		$this->CI->type->add_js('list', 'list.js');
+		$this->CI->type->add_js('list', 'init_list.js');
 	}
 
 	public function pre_save($input)
