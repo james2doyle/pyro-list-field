@@ -50,9 +50,7 @@ class Field_list
 	public function event($field)
 	{
 		$this->CI->type->add_css('list', 'list.css');
-
 		$this->CI->type->add_js('list', 'list.js');
-		$this->CI->type->add_js('list', 'init_list.js');
 	}
 
 	public function pre_save($input)
